@@ -30,3 +30,8 @@ print(pypesq(rate, ref, deg, 'wb'))
 print(pypesq(rate, ref, deg, 'nb'))
 ```
 
+# Note
+
+ Sampling rate (fs|rate) - No default. Must select either 8000Hz or 16000Hz.
+ 
+ Note there is narrow band (nb) mode only when sampling rate is 8000Hz.
