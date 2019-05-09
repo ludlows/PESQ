@@ -2,6 +2,8 @@
 
 PESQ (Perceptual Evaluation of Speech Quality) Wrapper for Python Users
 
+This code is designed for numpy array specially.
+
 # Requirements
 
     gcc compiler
