@@ -8,7 +8,7 @@ PESQ (Perceptual Evaluation of Speech Quality) Wrapper for Python Users
     numpy
     cython
 
-# build and install
+# Build and Install
 ```bash
 $ git clone https://github.com/ludlows/python-pesq.git
 $ cd python-pesq/pypesq
@@ -17,7 +17,7 @@ $ cd ..
 ```
 
 
-# example for narrow band and wide band
+# Example for narrow band and wide band
 
 ```python
 from scipy.io import wavfile
