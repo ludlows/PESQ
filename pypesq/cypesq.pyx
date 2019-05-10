@@ -1,8 +1,11 @@
 # distutils: language=C
 
+#2019-May
+#github.com/ludlows
+#Python Wrapper for PESQ Score (narrow band and wide band)
+
 import cython
 cimport numpy as np
-
 
 cdef extern from "pesq.h":
     DEF MAXNUTTERANCES = 50
