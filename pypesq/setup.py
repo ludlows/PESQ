@@ -1,3 +1,6 @@
+# 2019-May
+# github.com/ludlows
+# Python Wrapper for PESQ Score (narrow band and wide band)
 import numpy
 
 from distutils.core import setup
@@ -17,13 +20,4 @@ setup(
     ext_modules=cythonize(extensions),
 )
 
-#python setup.py build_ext --inplace
-# import numpy as np
-# from scipy.io import wavfile
-# rate, ref = wavfile.read("../audio/speech.wav")
-# rate, deg = wavfile.read("../audio/speech_bab_0dB.wav")
-# maxval = max(np.max(np.abs(ref/1.0)), np.max(np.abs(deg/1.0)));
-# cypesq(rate, (ref/maxval).astype(np.float32),(deg/maxval).astype(np.float32), 0)
-# ref = ref.astype(np.float32) / 2**15;
-# deg = deg.astype(np.float32) / 2**15
 
