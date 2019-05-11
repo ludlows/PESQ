@@ -32,6 +32,14 @@ print(pypesq(rate, ref, deg, 'wb'))
 print(pypesq(rate, ref, deg, 'nb'))
 ```
 
+# Correctness
+
+The correctness is verified by running samples in audio folder.
+
+PESQ computed by this code in wide band mode is    1.0832337141036987
+
+PESQ computed by this code in narrow band mode is  1.6072081327438354
+
 # Note
 
 Sampling rate (fs|rate) - No default. Must select either 8000Hz or 16000Hz.
