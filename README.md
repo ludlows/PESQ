@@ -19,6 +19,10 @@ $ cd python-pesq
 $ pip install .
 ```
 
+# Install with pip
+```
+$ pip install https://github.com/ludlows/python-pesq/archive/master.zip
+```
 
 # Example for narrow band and wide band
 
