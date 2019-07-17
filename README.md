@@ -1,4 +1,7 @@
 # python-pesq
+.. image:: https://travis-ci.org/boeddeker/python-pesq.svg?branch=master
+    :target: https://travis-ci.org/boeddeker/python-pesq
+    :alt: Travis Status
 
 PESQ (Perceptual Evaluation of Speech Quality) Wrapper for Python Users
 
