@@ -15,9 +15,8 @@ This code is designed for numpy array specially.
 # Build and Install
 ```bash
 $ git clone https://github.com/ludlows/python-pesq.git
-$ cd python-pesq/pypesq
-$ python setup.py build_ext --inplace
-$ cd ..
+$ cd python-pesq
+$ pip install .
 ```
 
 
