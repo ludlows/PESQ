@@ -16,12 +16,18 @@ This code is designed for numpy array specially.
 ```bash
 $ git clone https://github.com/ludlows/python-pesq.git
 $ cd python-pesq
-$ pip install .
+$ pip install .  # for python 2
+$ pip3 install . # for python 3 
 ```
 
 # Install with pip
 ```
 $ pip install https://github.com/ludlows/python-pesq/archive/master.zip
+
+# or
+
+$ pip3 install https://github.com/ludlows/python-pesq/archive/master.zip
+
 ```
 
 # Example for narrow band and wide band

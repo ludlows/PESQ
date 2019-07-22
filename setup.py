@@ -23,7 +23,7 @@ setup(
     ext_package='pypesq',
     ext_modules=cythonize(extensions),
     setup_requires=['pytest-runner'],
-    tests_require=['pytest', 'soundfile'],
+    tests_require=['pytest'],
 )
 
 
