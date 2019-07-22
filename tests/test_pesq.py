@@ -1,6 +1,6 @@
 from pathlib import Path
 
-import soundfile
+import scipy.io.wavfile
 
 from pypesq import pypesq
 
@@ -10,8 +10,8 @@ def test():
     ref_path = data_dir / 'speech.wav'
     deg_path = data_dir / 'speech_bab_0dB.wav'
 
-    ref, sample_rate = soundfile.read(ref_path)
-    deg, sample_rate = soundfile.read(deg_path)
+    sample_rate, ref = scipy.io.wavfile.read(ref_path)
+    sample_rate, deg = scipy.io.wavfile.read(deg_path)
 
     score = pypesq(ref=ref, deg=deg, fs=sample_rate, mode='wb')
 
