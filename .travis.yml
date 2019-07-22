@@ -1,0 +1,16 @@
+
+language: python
+python:
+  - 3.6
+  - 3.7
+
+install:
+  - pip install cython
+  - pip install -e .
+  - pip install coverage
+  - pip install numpy
+  - pip install scipy
+
+script:
+  - pytest tests/
+
