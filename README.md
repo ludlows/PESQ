@@ -1,7 +1,5 @@
 # python-pesq
 
-[![Build Status](https://travis-ci.org/boeddeker/python-pesq.svg?branch=master)](https://travis-ci.org/boeddeker/python-pesq)
-
 PESQ (Perceptual Evaluation of Speech Quality) Wrapper for Python Users
 
 This code is designed for numpy array specially.
@@ -27,7 +25,6 @@ $ pip install https://github.com/ludlows/python-pesq/archive/master.zip
 # or
 
 $ pip3 install https://github.com/ludlows/python-pesq/archive/master.zip
-
 ```
 
 # Example for narrow band and wide band
