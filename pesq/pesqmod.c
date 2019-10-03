@@ -588,10 +588,12 @@ double pow_of (const float * const x, long start_sample, long stop_sample, long 
     double  power = 0;
 
     if (start_sample < 0) {
+        printf("pesqmod.c:8:590: start_sample < 0 in function `double pow_of(const float * const x, long start_sample, long stop_sample, long divisor)`"); 
         exit (1);
     }
 
     if (start_sample > stop_sample) {
+        printf("pesqmod.c:8:590: start_sample > stop_sample in function `double pow_of(const float * const x, long start_sample, long stop_sample, long divisor)`"); 
         exit (1);
     }
 
@@ -767,12 +769,11 @@ float integral_of (float *x, long frames_after_start) {
 
 #define DEBUG_FR    0
 
-void pesq_psychoacoustic_model(SIGNAL_INFO    * ref_info, 
-                                 SIGNAL_INFO    * deg_info,
-                               ERROR_INFO    * err_info, 
-                               float        * ftmp)
+int pesq_psychoacoustic_model(SIGNAL_INFO * ref_info, 
+                              SIGNAL_INFO * deg_info,
+                              ERROR_INFO  * err_info, 
+                              float       * ftmp)
 {
-
     long    maxNsamples = max (ref_info-> Nsamples, deg_info-> Nsamples);
     long    Nf = Downsample * 8L;
     long    start_frame, stop_frame;
@@ -858,8 +859,9 @@ void pesq_psychoacoustic_model(SIGNAL_INFO    * ref_info,
         abs_thresh_power = abs_thresh_power_16k;
         break;
     default:
-        printf ("Invalid sample frequency!\n");
-        exit (1);
+        return PESQ_PAMODEL_INVALID_FREQUENCY;
+        //printf ("Invalid sample frequency!\n");
+        //exit (1);
     }
 
     samples_to_skip_at_start = 0;
@@ -943,8 +945,9 @@ void pesq_psychoacoustic_model(SIGNAL_INFO    * ref_info,
         short_term_fft (Nf, ref_info, Whanning, start_sample_ref, hz_spectrum_ref, fft_tmp);
         
         if (err_info-> Nutterances < 1) {
-            printf ("Processing error!\n");
-            exit (1);
+            return PESQ_PAMODEL_NO_UTTERANCES_DETECTED;
+            //printf ("Processing error!\n");
+            //exit (1);
         }
 
         utt = err_info-> Nutterances - 1;
@@ -1414,7 +1417,7 @@ void pesq_psychoacoustic_model(SIGNAL_INFO    * ref_info,
     safe_free (frame_disturbance_asym_add);
     safe_free (tweaked_deg);
 
-    return;
+    return PESQ_PAMODEL_SUCCESS;
 }
 
 /* END OF FILE */

@@ -312,6 +312,7 @@ void crude_align(
 void time_align(
      SIGNAL_INFO * ref_info, SIGNAL_INFO * deg_info, ERROR_INFO * err_info,
      long Utt_id, float * ftmp );
+
 void split_align( SIGNAL_INFO * ref_info, SIGNAL_INFO * deg_info,
      ERROR_INFO * err_info, float * ftmp,
      long Utt_Start, long Utt_SpeechStart, long Utt_SpeechEnd, long Utt_End,
@@ -319,12 +320,16 @@ void split_align( SIGNAL_INFO * ref_info, SIGNAL_INFO * deg_info,
      long * Best_ED1, long * Best_D1, float * Best_DC1,
      long * Best_ED2, long * Best_D2, float * Best_DC2,
      long * Best_BP );
-void pesq_psychoacoustic_model(
-SIGNAL_INFO * ref_info, SIGNAL_INFO * deg_info,
-ERROR_INFO * err_info, float * ftmp);
+
+int pesq_psychoacoustic_model(SIGNAL_INFO * ref_info, SIGNAL_INFO * deg_info,
+    ERROR_INFO * err_info, float * ftmp);
 void apply_pesq( float * x_data, float * ref_surf,
 float * y_data, float * deg_surf, long NVAD_windows, float * ftmp,
 ERROR_INFO * err_info );
+
+#define PESQ_PAMODEL_SUCCESS                0
+#define PESQ_PAMODEL_INVALID_FREQUENCY      1
+#define PESQ_PAMODEL_NO_UTTERANCES_DETECTED 2
 
 #endif //PESQ_H
 

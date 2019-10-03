@@ -7,6 +7,9 @@
 import cython
 cimport numpy as np
 
+class PESQError(RuntimeError):
+    pass
+
 cdef extern from "pesq.h":
     DEF MAXNUTTERANCES = 50
     DEF NB_MODE = 0
@@ -47,7 +50,7 @@ cdef extern from "pesqio.h":
 
 
 cdef extern from "pesqmain.h":
-    cdef void pesq_measure(SIGNAL_INFO * ref_info, SIGNAL_INFO * deg_info, ERROR_INFO * err_info, long * Error_Flag, char ** Error_Type)
+    cdef int pesq_measure(SIGNAL_INFO * ref_info, SIGNAL_INFO * deg_info, ERROR_INFO * err_info, long * Error_Flag, char ** Error_Type)
 
 
 cpdef object cypesq(long sample_rate, np.ndarray[float, ndim=1, mode="c"] ref_data,  np.ndarray[float, ndim=1, mode="c"] deg_data, int mode):
@@ -106,7 +109,13 @@ cpdef object cypesq(long sample_rate, np.ndarray[float, ndim=1, mode="c"] ref_da
         deg_info.input_filter = 2
         err_info.mode = WB_MODE
 
-    pesq_measure(&ref_info, &deg_info, &err_info, &error_flag, &error_type);
+    cdef int res = pesq_measure(&ref_info, &deg_info, &err_info, &error_flag, &error_type);
+
+    if res == 1: #
+        raise PESQError("Invalid sampling frequency")
+    if res == 2:
+        raise PESQError("No utterances detected")
+
     if error_flag!=0:
         return -1
     return err_info.mapped_mos
