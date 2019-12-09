@@ -6,7 +6,7 @@ This code is designed for numpy array specially.
 
 # Requirements
 
-    gcc compiler
+    C compiler
     numpy
     cython
 
@@ -21,7 +21,13 @@ $ rm -rf python-pesq # remove the code folder since it exists in the python pack
 ```
 
 # Install with pip
-```
+
+```bash
+# PyPi Repository
+$ pip install pesq
+
+
+# The Latest Version
 $ pip install https://github.com/ludlows/python-pesq/archive/master.zip
 
 # or
