@@ -2,7 +2,7 @@ from pathlib import Path
 
 import scipy.io.wavfile
 
-from pypesq import pypesq
+from pesq import pesq
 
 
 def test():
@@ -13,10 +13,10 @@ def test():
     sample_rate, ref = scipy.io.wavfile.read(ref_path)
     sample_rate, deg = scipy.io.wavfile.read(deg_path)
 
-    score = pypesq(ref=ref, deg=deg, fs=sample_rate, mode='wb')
+    score = pesq(ref=ref, deg=deg, fs=sample_rate, mode='wb')
 
     assert score == 1.0832337141036987, score
 
-    score = pypesq(ref=ref, deg=deg, fs=sample_rate, mode='nb')
+    score = pesq(ref=ref, deg=deg, fs=sample_rate, mode='nb')
 
     assert score == 1.6072081327438354, score

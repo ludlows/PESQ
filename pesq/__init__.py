@@ -10,7 +10,7 @@ USAGE = """
        Sample rate (fs) - No default. Must select either 8000 or 16000.
        Note there is narrow band (nb) mode only when sampling rate is 8000Hz.
        """
-def pypesq(fs, ref, deg, mode):
+def pesq(fs, ref, deg, mode):
     """
     Args:
         ref: numpy 1D array, reference audio signal 

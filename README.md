@@ -31,15 +31,19 @@ $ pip3 install https://github.com/ludlows/python-pesq/archive/master.zip
 
 # Example for narrow band and wide band
 
+when using it, please note that the sampling rate (frequency) should be 16000 or 8000. 
+
+And using 8000 is supported for narrow band only.
+
 ```python
 from scipy.io import wavfile
-from pypesq import pypesq
+from pesq import pesq
 
 rate, ref = wavfile.read("./audio/speech.wav")
 rate, deg = wavfile.read("./audio/speech_bab_0dB.wav")
 
-print(pypesq(rate, ref, deg, 'wb'))
-print(pypesq(rate, ref, deg, 'nb'))
+print(pesq(rate, ref, deg, 'wb'))
+print(pesq(rate, ref, deg, 'nb'))
 ```
 
 # Correctness
