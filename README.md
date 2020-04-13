@@ -1,24 +1,14 @@
 # python-pesq
 
-PESQ (Perceptual Evaluation of Speech Quality) Wrapper for Python Users
+PESQ (Perceptual Evaluation of Speech Quality) Wrapper for Python.
 
-This code is designed for numpy array specially.
+This code is designed for numpy arrays specifically.
 
 # Requirements
 
     C compiler
     numpy
     cython
-
-# Build and Install
-```bash
-$ git clone https://github.com/ludlows/python-pesq.git
-$ cd python-pesq
-$ pip install .  # for python 2
-$ pip3 install . # for python 3 
-$ cd ..
-$ rm -rf python-pesq # remove the code folder since it exists in the python package folder
-```
 
 # Install with pip
 
@@ -35,11 +25,21 @@ $ pip install https://github.com/ludlows/python-pesq/archive/master.zip
 $ pip3 install https://github.com/ludlows/python-pesq/archive/master.zip
 ```
 
+# Build and install latest
+```bash
+$ git clone https://github.com/ludlows/python-pesq.git
+$ cd python-pesq
+$ pip install .  # for python 2
+$ pip3 install . # for python 3 
+$ cd ..
+$ rm -rf python-pesq # remove the code folder since it exists in the python package folder
+```
+
+
 # Example for narrow band and wide band
 
-when using it, please note that the sampling rate (frequency) should be 16000 or 8000. 
-
-And using 8000 is supported for narrow band only.
+Please note that the sampling rate (frequency) should be 16000 or 8000 
+and 8000 is supported for narrow band only.
 
 ```python
 from scipy.io import wavfile
@@ -66,4 +66,18 @@ Sampling rate (fs|rate) - No default. Must select either 8000Hz or 16000Hz.
  
 Note there is narrow band (nb) mode only when sampling rate is 8000Hz.
 
-The original C soure code is modified. 
+The original C soure code is modified.
+
+If the reference sound is nearly silent then you will get an
+exception `No utterances detected` that you can handle manually if you want.
+
+```python
+SAMPLE_RATE = 16000
+silent_ref = np.zeros(16000)
+deg = np.random.randn(16000)
+
+try:
+    pesq(SAMPLE_RATE, silent_ref, deg, 'wb')
+except Exception as e:
+    print(e)
+```
