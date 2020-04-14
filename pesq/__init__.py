@@ -3,7 +3,8 @@
 # Python Wrapper for PESQ Score (narrow band and wide band)
 
 import numpy as np
-from .cypesq import cypesq
+from pesq.cypesq import cypesq, PESQError
+
 
 USAGE = """
        Run model on reference ref and degraded deg

@@ -72,12 +72,14 @@ If the reference sound is nearly silent then you will get an
 exception `No utterances detected` that you can handle manually if you want.
 
 ```python
+from pesq import PESQError
+
 SAMPLE_RATE = 16000
 silent_ref = np.zeros(16000)
 deg = np.random.randn(16000)
 
 try:
     pesq(SAMPLE_RATE, silent_ref, deg, 'wb')
-except Exception as e:
+except PESQError as e:
     print(e)
 ```
