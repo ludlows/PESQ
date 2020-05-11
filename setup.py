@@ -1,22 +1,34 @@
 # 2019-May
 # github.com/ludlows
 # Python Wrapper for PESQ Score (narrow band and wide band)
-import numpy
-
 from setuptools import find_packages
-from distutils.core import setup
-from distutils.extension import Extension
+from setuptools import setup, Extension
 
-from Cython.Build import cythonize, build_ext
 
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
+
+class CyPesqExtension(Extension):
+    def __init__(self, *args, **kwargs):
+        self._include = []
+        super().__init__(*args, **kwargs)
+
+    @property
+    def include_dirs(self):
+        import numpy
+        return self._include + [numpy.get_include()]
+
+    @include_dirs.setter
+    def include_dirs(self, dirs):
+        self._include = dirs
+
+
 extensions = [
-    Extension(
+    CyPesqExtension(
         "cypesq",
         ["pesq/cypesq.pyx", "pesq/dsp.c", "pesq/pesqdsp.c","pesq/pesqmod.c"],
-        include_dirs=['pesq', numpy.get_include()],
+        include_dirs=['pesq'],
         language="c")
 ]
 setup(
@@ -29,10 +41,9 @@ setup(
     url="https://github.com/ludlows/python-pesq",
     packages=find_packages(),
     package_data={'pesq':["*.pyx", "*.h", "dsp.c", "pesqdsp.c", "pesqmod.c"]},
-    # cmdclass = {'build_ext': build_ext},
     ext_package='pesq',
-    ext_modules=cythonize(extensions),
-    setup_requires=['numpy', 'cython', 'pytest-runner'],
+    ext_modules=extensions,
+    setup_requires=['setuptools>=18.0', 'cython', 'numpy', 'pytest-runner'],
     tests_require=['pytest'],
     classifiers=[
         "Programming Language :: Python",
@@ -40,5 +51,3 @@ setup(
         "Operating System :: OS Independent",
     ]
 )
-
-
