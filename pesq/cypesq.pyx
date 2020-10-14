@@ -76,6 +76,10 @@ cdef extern from "pesqmain.h":
 # It should be ok-ish.
 cdef char* last_error_message = "unknown";
 
+cdef void set_last_error_message(char* msg):
+    global last_error_message
+    last_error_message = msg
+
 cpdef char* cypesq_last_error_message():
     return last_error_message
 
@@ -89,7 +93,8 @@ cpdef object cypesq_retvals(long sample_rate,
 
     select_rate(sample_rate, &error_flag, &error_type)
     if error_flag != 0:
-        last_error_message = error_type # They are all literals, this is not a leak (probably)
+        # They are all literals, this is not a leak (probably)
+        set_last_error_message(error_type)
         return PesqErrorCode.INVALID_SAMPLE_RATE
 
     # assign signal
@@ -143,7 +148,7 @@ cpdef object cypesq_retvals(long sample_rate,
 
     pesq_measure(&ref_info, &deg_info, &err_info, &error_flag, &error_type);
     if error_flag != 0:
-        last_error_message = error_type
+        set_last_error_message(error_type)
         return error_flag
     
     return err_info.mapped_mos
@@ -157,20 +162,19 @@ cpdef object cypesq(long sample_rate,
     # Null and Positive are valid values.
     if ret >= 0:
         return ret
-    
-    elif ret == PesqErrorCode.INVALID_SAMPLE_RATE:
+
+    if ret == PesqErrorCode.INVALID_SAMPLE_RATE:
         raise InvalidSampleRateError(last_error_message)
     
-    elif ret == PesqErrorCode.OUT_OF_MEMORY:
+    if ret == PesqErrorCode.OUT_OF_MEMORY:
         raise OutOfMemoryError(last_error_message)
     
-    elif ret == PesqErrorCode.BUFFER_TOO_SHORT:
+    if ret == PesqErrorCode.BUFFER_TOO_SHORT:
         raise BufferTooShortError(last_error_message)
     
-    elif ret == PesqErrorCode.NO_UTTERANCES_DETECTED:
+    if ret == PesqErrorCode.NO_UTTERANCES_DETECTED:
         raise NoUtterancesError(last_error_message)
 
     # Raise unknown otherwise
-    else:
-        raise PesqError(last_error_message)
+    raise PesqError(last_error_message)
 
