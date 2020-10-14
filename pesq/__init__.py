@@ -4,6 +4,8 @@
 
 import numpy as np
 from .cypesq import cypesq, cypesq_retvals, cypesq_last_error_message
+from .cypesq import PesqError, InvalidSampleRateError, OutOfMemoryError
+from .cypesq import BufferTooShortError, NoUtterancesError
 
 class PesqOnError:
     RAISE_EXCEPTION = 0
