@@ -5,7 +5,30 @@
 #Python Wrapper for PESQ Score (narrow band and wide band)
 
 import cython
-cimport numpy as np
+cimport numpy as np 
+
+cpdef enum PesqErrorCode:
+    SUCCESS                =  0,
+    UNKNOWN                = -1,
+    INVALID_SAMPLE_RATE    = -2,
+    OUT_OF_MEMORY          = -3,
+    BUFFER_TOO_SHORT       = -4,
+    NO_UTTERANCES_DETECTED = -5
+
+class PesqError(RuntimeError):
+    pass
+
+class InvalidSampleRateError(PesqError):
+    pass
+
+class OutOfMemoryError(PesqError):
+    pass
+
+class BufferTooShortError(PesqError):
+    pass
+
+class NoUtterancesError(PesqError):
+    pass
 
 cdef extern from "pesq.h":
     DEF MAXNUTTERANCES = 50
@@ -49,14 +72,26 @@ cdef extern from "pesqio.h":
 cdef extern from "pesqmain.h":
     cdef void pesq_measure(SIGNAL_INFO * ref_info, SIGNAL_INFO * deg_info, ERROR_INFO * err_info, long * Error_Flag, char ** Error_Type)
 
+# Well, Globals are evil, but this is just storing the last message. 
+# It should be ok-ish.
+cdef char* last_error_message = "unknown";
 
-cpdef object cypesq(long sample_rate, np.ndarray[float, ndim=1, mode="c"] ref_data,  np.ndarray[float, ndim=1, mode="c"] deg_data, int mode):
+cpdef char* cypesq_last_error_message():
+    return last_error_message
+
+cpdef object cypesq_retvals(long sample_rate,
+                    np.ndarray[float, ndim=1, mode="c"] ref_data,
+                    np.ndarray[float, ndim=1, mode="c"] deg_data,
+                    int mode):
     # select rate
     cdef long error_flag = 0;
     cdef char * error_type = "unknown";
+
     select_rate(sample_rate, &error_flag, &error_type)
     if error_flag != 0:
-        return -1
+        last_error_message = error_type # They are all literals, this is not a leak (probably)
+        return PesqErrorCode.INVALID_SAMPLE_RATE
+
     # assign signal
     cdef long length_ref
     cdef long length_deg
@@ -107,8 +142,35 @@ cpdef object cypesq(long sample_rate, np.ndarray[float, ndim=1, mode="c"] ref_da
         err_info.mode = WB_MODE
 
     pesq_measure(&ref_info, &deg_info, &err_info, &error_flag, &error_type);
-    if error_flag!=0:
-        return -1
+    if error_flag != 0:
+        last_error_message = error_type
+        return error_flag
+    
     return err_info.mapped_mos
 
+cpdef object cypesq(long sample_rate,
+                    np.ndarray[float, ndim=1, mode="c"] ref_data,
+                    np.ndarray[float, ndim=1, mode="c"] deg_data,
+                    int mode):
+    cdef object ret = cypesq_retvals(sample_rate, ref_data, deg_data, mode)
+
+    # Null and Positive are valid values.
+    if ret >= 0:
+        return ret
+    
+    elif ret == PesqErrorCode.INVALID_SAMPLE_RATE:
+        raise InvalidSampleRateError(last_error_message)
+    
+    elif ret == PesqErrorCode.OUT_OF_MEMORY:
+        raise OutOfMemoryError(last_error_message)
+    
+    elif ret == PesqErrorCode.BUFFER_TOO_SHORT:
+        raise BufferTooShortError(last_error_message)
+    
+    elif ret == PesqErrorCode.NO_UTTERANCES_DETECTED:
+        raise NoUtterancesError(last_error_message)
+
+    # Raise unknown otherwise
+    else:
+        raise PesqError(last_error_message)
 

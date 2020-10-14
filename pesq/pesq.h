@@ -234,6 +234,12 @@ extern long Align_Nfft_16k;
 #ifndef PESQ_H
 #define PESQ_H
 
+#define PESQ_ERROR_UNKNOWN                -1
+#define PESQ_ERROR_INVALID_SAMPLE_RATE    -2 
+#define PESQ_ERROR_OUT_OF_MEMORY          -3
+#define PESQ_ERROR_BUFFER_TOO_SHORT       -4
+#define PESQ_ERROR_NO_UTTERANCES_DETECTED -5
+
 typedef struct {
   char  path_name[512];
   char  file_name [128];
@@ -320,8 +326,9 @@ void split_align( SIGNAL_INFO * ref_info, SIGNAL_INFO * deg_info,
      long * Best_ED2, long * Best_D2, float * Best_DC2,
      long * Best_BP );
 void pesq_psychoacoustic_model(
-SIGNAL_INFO * ref_info, SIGNAL_INFO * deg_info,
-ERROR_INFO * err_info, float * ftmp);
+    SIGNAL_INFO * ref_info, SIGNAL_INFO * deg_info,
+    ERROR_INFO * err_info, long * Error_Flag, char ** Error_Type,
+    float * ftmp);
 void apply_pesq( float * x_data, float * ref_surf,
 float * y_data, float * deg_surf, long NVAD_windows, float * ftmp,
 ERROR_INFO * err_info );
@@ -359,5 +366,6 @@ ERROR_INFO * err_info );
 #ifndef A_WEIGHT 
 #define     A_WEIGHT    0.0309
 #endif
+
 /* END OF FILE */
 
