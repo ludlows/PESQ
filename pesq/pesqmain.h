@@ -277,21 +277,21 @@ void pesq_measure (SIGNAL_INFO * ref_info, SIGNAL_INFO * deg_info,
     if (*Error_Flag != 0) {
         *Error_Flag = PESQ_ERROR_UNKNOWN;
         // We're rewriting the flag, but keeping the Error_Type for later
-        return;
+        goto cleanup;
     }
 
     // Load Reference Buffer
     load_src(Error_Flag, Error_Type, ref_info);
     if (*Error_Flag != 0) {
-        *Error_Flag = PESQ_ERROR_OUT_OF_MEMORY;
-        return;
+        *Error_Flag = PESQ_ERROR_OUT_OF_MEMORY_REF;
+        goto cleanup;
     }
 
     // Load Degraded Buffer
     load_src(Error_Flag, Error_Type, deg_info);
     if (*Error_Flag != 0) {
-        *Error_Flag = PESQ_ERROR_OUT_OF_MEMORY;
-        return;
+        *Error_Flag = PESQ_ERROR_OUT_OF_MEMORY_DEG;
+        goto cleanup;
     }
 
     // If one of the buffers has less than 1/4 of a second, return error.
@@ -300,14 +300,14 @@ void pesq_measure (SIGNAL_INFO * ref_info, SIGNAL_INFO * deg_info,
     {
         *Error_Flag = PESQ_ERROR_BUFFER_TOO_SHORT;
         *Error_Type = "Reference or Degraded below 1/4 second - processing stopped ";
-        return;
+        goto cleanup;
     }
 
     // Allocate temporary storage
     alloc_other(ref_info, deg_info, Error_Flag, Error_Type, &ftmp);
     if (*Error_Flag != 0) {
-        *Error_Flag = PESQ_ERROR_OUT_OF_MEMORY;
-        return;
+        *Error_Flag = PESQ_ERROR_OUT_OF_MEMORY_TMP;
+        goto cleanup;
     }
 
     int     maxNsamples = max (ref_info-> Nsamples, deg_info-> Nsamples);
@@ -421,14 +421,6 @@ void pesq_measure (SIGNAL_INFO * ref_info, SIGNAL_INFO * deg_info,
     // We're not checking Error_Flag and returning here as we still need to do 
     // some clean-up before returning.
 
-    safe_free (ref_info-> data);
-    safe_free (ref_info-> VAD);
-    safe_free (ref_info-> logVAD);
-    safe_free (deg_info-> data);
-    safe_free (deg_info-> VAD);
-    safe_free (deg_info-> logVAD);
-    safe_free (ftmp);
-
     if ( err_info->mode == NB_MODE ) // narrow band 
     {   
         // printf("narrow\n");
@@ -439,6 +431,19 @@ void pesq_measure (SIGNAL_INFO * ref_info, SIGNAL_INFO * deg_info,
         // printf("wide\n");
         err_info->mapped_mos = 0.999f+4.0f/(1.0f+(float)exp((-1.3669f*err_info->pesq_mos+3.8224f)));
         err_info->pesq_mos = -1.0;
+    }
+
+cleanup:
+    // Ensuring we're avoiding a double-free scenario
+    if (ref_info->data   != NULL) { safe_free(ref_info->data);   }
+    if (ref_info->VAD    != NULL) { safe_free(ref_info->VAD);    }
+    if (ref_info->logVAD != NULL) { safe_free(ref_info->logVAD); }
+    if (deg_info->data   != NULL) { safe_free(deg_info->data);   }
+    if (deg_info->VAD    != NULL) { safe_free(deg_info->VAD);    }
+    if (deg_info->logVAD != NULL) { safe_free(deg_info->logVAD); }
+
+    if (ftmp != NULL) {
+        safe_free(ftmp);
     }
 
 //         resultsFile = fopen (ITU_RESULTS_FILE, "at");

@@ -3,20 +3,16 @@
 # Python Wrapper for PESQ Score (narrow band and wide band)
 
 import numpy as np
-from .cypesq import cypesq, cypesq_retvals, cypesq_last_error_message
+from .cypesq import cypesq, cypesq_retvals, cypesq_error_message as pesq_error_message
 from .cypesq import PesqError, InvalidSampleRateError, OutOfMemoryError
 from .cypesq import BufferTooShortError, NoUtterancesError
-
-class PesqOnError:
-    RAISE_EXCEPTION = 0
-    RETURN_VALUES   = 1
 
 USAGE = """
        Run model on reference ref and degraded deg
        Sample rate (fs) - No default. Must select either 8000 or 16000.
        Note there is narrow band (nb) mode only when sampling rate is 8000Hz.
        """
-def pesq(fs, ref, deg, mode, on_error=PesqOnError.RAISE_EXCEPTION):
+def pesq(fs, ref, deg, mode, on_error=PesqError.RAISE_EXCEPTION):
     """
     Args:
         ref: numpy 1D array, reference audio signal 
@@ -45,7 +41,7 @@ def pesq(fs, ref, deg, mode, on_error=PesqOnError.RAISE_EXCEPTION):
     else:
         mode_code = 0
     
-    if on_error == PesqOnError.RETURN_VALUES:
+    if on_error == PesqError.RETURN_VALUES:
         return cypesq_retvals(
             fs,
             (ref/maxval).astype(np.float32),
@@ -59,6 +55,3 @@ def pesq(fs, ref, deg, mode, on_error=PesqOnError.RAISE_EXCEPTION):
             (deg/maxval).astype(np.float32),
             mode_code
         )
-
-def pesq_last_error_message():
-    return cypesq_last_error_message()

@@ -234,11 +234,14 @@ extern long Align_Nfft_16k;
 #ifndef PESQ_H
 #define PESQ_H
 
+#define PESQ_ERROR_SUCCESS                 0
 #define PESQ_ERROR_UNKNOWN                -1
 #define PESQ_ERROR_INVALID_SAMPLE_RATE    -2 
-#define PESQ_ERROR_OUT_OF_MEMORY          -3
-#define PESQ_ERROR_BUFFER_TOO_SHORT       -4
-#define PESQ_ERROR_NO_UTTERANCES_DETECTED -5
+#define PESQ_ERROR_OUT_OF_MEMORY_REF      -3
+#define PESQ_ERROR_OUT_OF_MEMORY_DEG      -4
+#define PESQ_ERROR_OUT_OF_MEMORY_TMP      -5
+#define PESQ_ERROR_BUFFER_TOO_SHORT       -6
+#define PESQ_ERROR_NO_UTTERANCES_DETECTED -7
 
 typedef struct {
   char  path_name[512];
