@@ -1,5 +1,3 @@
-#!/usr/bin/python3
-
 import pytest
 import numpy as np
 import scipy.io.wavfile
