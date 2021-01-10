@@ -67,3 +67,28 @@ Sampling rate (fs|rate) - No default. Must select either 8000Hz or 16000Hz.
 Note there is narrow band (nb) mode only when sampling rate is 8000Hz.
 
 The original C soure code is modified. 
+
+# Who is using `python-pesq`
+Please click [here](https://github.com/ludlows/python-pesq/network/dependents) to see these repositories.
+
+# Expressing your opinions on the error-handling behaviors
+The code on `dev` branch supports error-handling behaviors now.
+
+```python
+def pesq(fs, ref, deg, mode, on_error=PesqError.RAISE_EXCEPTION):
+    """
+    Args:
+        ref: numpy 1D array, reference audio signal 
+        deg: numpy 1D array, degraded audio signal
+        fs:  integer, sampling rate
+        mode: 'wb' (wide-band) or 'nb' (narrow-band)
+        on_error: error-handling behavior, it could be PesqError.RETURN_VALUES or PesqError.RAISE_EXCEPTION by default
+    Returns:
+        pesq_score: float, P.862.2 Prediction (MOS-LQO)
+    """
+```
+Once you select `PesqError.RETURN_VALUES`, the `pesq` function will return -1 when an error occurs.
+Once you select `PesqError.RAISE_EXCEPTION`, the `pesq` function will raise an exception when an error occurs.
+It supports the following errors now: `InvalidSampleRateError`, `OutOfMemoryError`,`BufferTooShortError`,`NoUtterancesError`,`PesqError`(other unknown errors).
+Thanks to the contribution from [@Rafgd](https://github.com/Rafagd). 
+
