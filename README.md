@@ -88,7 +88,10 @@ def pesq(fs, ref, deg, mode, on_error=PesqError.RAISE_EXCEPTION):
     """
 ```
 Once you select `PesqError.RETURN_VALUES`, the `pesq` function will return -1 when an error occurs.
+
 Once you select `PesqError.RAISE_EXCEPTION`, the `pesq` function will raise an exception when an error occurs.
+
 It supports the following errors now: `InvalidSampleRateError`, `OutOfMemoryError`,`BufferTooShortError`,`NoUtterancesError`,`PesqError`(other unknown errors).
+
 Thanks to the contribution from [@Rafgd](https://github.com/Rafagd). 
 
