@@ -95,3 +95,5 @@ It supports the following errors now: `InvalidSampleRateError`, `OutOfMemoryErro
 
 Thanks to the contribution from [@Rafgd](https://github.com/Rafagd). 
 
+# Buy me a Coffee
+Buy me a Coffee if my work helps you in some ways.
