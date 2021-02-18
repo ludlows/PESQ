@@ -588,11 +588,11 @@ double pow_of (const float * const x, long start_sample, long stop_sample, long 
     double  power = 0;
 
     if (start_sample < 0) {
-        exit (1);
+        return 0;
     }
 
     if (start_sample > stop_sample) {
-        exit (1);
+        return 0;
     }
 
     for (i = start_sample; i < stop_sample; i++) {
@@ -859,7 +859,8 @@ void pesq_psychoacoustic_model(SIGNAL_INFO    * ref_info,
         break;
     default:
         printf ("Invalid sample frequency!\n");
-        exit (1);
+        err_info->pesq_mos = 0;
+        return;
     }
 
     samples_to_skip_at_start = 0;
@@ -944,7 +945,8 @@ void pesq_psychoacoustic_model(SIGNAL_INFO    * ref_info,
         
         if (err_info-> Nutterances < 1) {
             printf ("Processing error!\n");
-            exit (1);
+            err_info->pesq_mos = 0;
+            return;
         }
 
         utt = err_info-> Nutterances - 1;
