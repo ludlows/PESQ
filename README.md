@@ -69,7 +69,7 @@ Note there is narrow band (nb) mode only when sampling rate is 8000Hz.
 The original C soure code is modified. 
 
 # Who is using `python-pesq`
-Please click [here](https://github.com/ludlows/python-pesq/network/dependents) to see these repositories.
+Please click [here](https://github.com/ludlows/python-pesq/network/dependents) to see these repositories, whose owners include `Facebook Research`, `SpeechBrain`, `NVIDIA` .etc.
 
 # Expressing your opinions on the error-handling behaviors
 The code on `dev` branch supports error-handling behaviors now.
