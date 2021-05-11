@@ -102,6 +102,7 @@ Further information is also available from www.pesq.org
 
 *****************************************************************************/
 
+#include <assert.h>
 #include <math.h>
 #include <stdio.h>
 #include "pesq.h"
@@ -584,16 +585,11 @@ void multiply_with_asymmetry_factor (float      *disturbance_dens,
 }
 
 double pow_of (const float * const x, long start_sample, long stop_sample, long divisor) {
+    assert(start_sample >= 0);
+    assert(start_sample <= stop_sample);
+
     long    i;
     double  power = 0;
-
-    if (start_sample < 0) {
-        exit (1);
-    }
-
-    if (start_sample > stop_sample) {
-        exit (1);
-    }
 
     for (i = start_sample; i < stop_sample; i++) {
         float h = x [i];
@@ -767,10 +763,12 @@ float integral_of (float *x, long frames_after_start) {
 
 #define DEBUG_FR    0
 
-void pesq_psychoacoustic_model(SIGNAL_INFO    * ref_info, 
-                                 SIGNAL_INFO    * deg_info,
-                               ERROR_INFO    * err_info, 
-                               float        * ftmp)
+void pesq_psychoacoustic_model(SIGNAL_INFO * ref_info, 
+                               SIGNAL_INFO * deg_info,
+                               ERROR_INFO  * err_info,
+                               long        * Error_Flag,
+                               char       ** Error_Type,
+                               float       * ftmp)
 {
 
     long    maxNsamples = max (ref_info-> Nsamples, deg_info-> Nsamples);
@@ -858,8 +856,9 @@ void pesq_psychoacoustic_model(SIGNAL_INFO    * ref_info,
         abs_thresh_power = abs_thresh_power_16k;
         break;
     default:
-        printf ("Invalid sample frequency!\n");
-        exit (1);
+        *Error_Flag = PESQ_ERROR_INVALID_SAMPLE_RATE;
+        *Error_Type = "Invalid sample frequency!\n";
+        return;
     }
 
     samples_to_skip_at_start = 0;
@@ -943,8 +942,9 @@ void pesq_psychoacoustic_model(SIGNAL_INFO    * ref_info,
         short_term_fft (Nf, ref_info, Whanning, start_sample_ref, hz_spectrum_ref, fft_tmp);
         
         if (err_info-> Nutterances < 1) {
-            printf ("Processing error!\n");
-            exit (1);
+            *Error_Flag = PESQ_ERROR_NO_UTTERANCES_DETECTED;
+            *Error_Type = "No utterances!\n";
+            return;
         }
 
         utt = err_info-> Nutterances - 1;
