@@ -33,7 +33,7 @@ extensions = [
 ]
 setup(
     name="pesq",
-    version="0.0.2",
+    version="0.0.3",
     author="ludlows",
     description="Python Wrapper for PESQ Score (narrow band and wide band)",
     long_description=long_description,
