@@ -1,3 +1,15 @@
+
+# This was planed to run on a my LAPTOP 
+you will need to activate the mic from the terminal
+see follwing for more info  : https://stackoverflow.com/questions/58211407/pyaudio-generating-blank-wav-files
+
+
+# run a test 
+rec.py --> record wav file 
+playlist.py --> play recoread and test pesq (smaples are takning from audio folder and wb_playlist.txt) 
+Visualize.py --> will great grap 
+
+
 # python-pesq
 
 PESQ (Perceptual Evaluation of Speech Quality) Wrapper for Python Users
@@ -93,5 +105,3 @@ The original C soure code is modified.
 Please click [here](https://github.com/ludlows/python-pesq/network/dependents) to see these repositories, whose owners include `Facebook Research`, `SpeechBrain`, `NVIDIA` .etc.
 
 
-# Buy me a Coffee
-[Buy](https://www.paypal.me/wangmiao521) me a Coffee if my work helps you in some ways.
