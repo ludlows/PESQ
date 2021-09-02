@@ -289,7 +289,7 @@ void make_stereo_file2 (char *, SIGNAL_INFO *, float *);
 void select_rate( long sample_rate,
      long * Error_Flag, char ** Error_Type );
 int  file_exist( char * fname );
-void load_src( long * Error_Flag, char ** Error_Type,
+void load_wav( long * Error_Flag, char ** Error_Type,
      SIGNAL_INFO * sinfo);
 void alloc_other( SIGNAL_INFO * ref_info, SIGNAL_INFO * deg_info, 
     long * Error_Flag, char ** Error_Type, float ** ftmp);

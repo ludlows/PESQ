@@ -191,7 +191,7 @@ int file_exist( char * fname )
     }
 }
 
-void load_src( long * Error_Flag, char ** Error_Type,
+void load_wav( long * Error_Flag, char ** Error_Type,
          SIGNAL_INFO * sinfo)
 {
     // long name_len;
@@ -209,7 +209,7 @@ void load_src( long * Error_Flag, char ** Error_Type,
     // short *p_input;
     // char s;
     // char *p_byte;
-    //FILE *Src_file = fopen( sinfo-> path_name, "rb" );
+    //FILE *wav_file = fopen( sinfo-> path_name, "rb" );
 
 //     input_data = (short *) safe_malloc( 16384 * sizeof(short) );
     input_data = (float *) safe_malloc( sinfo-> Nsamples * sizeof(float) );    
@@ -219,11 +219,11 @@ void load_src( long * Error_Flag, char ** Error_Type,
         *Error_Flag = 1;
         *Error_Type = "Could not allocate storage for file reading";
         printf ("%s!\n", *Error_Type);
-        //fclose( Src_file );
+        //fclose( wav_file );
         return;
     }
 
-  /*  if( Src_file == NULL )
+  /*  if( wav_file == NULL )
     {
         *Error_Flag = 1;
         *Error_Type = "Could not open source file";
@@ -232,32 +232,32 @@ void load_src( long * Error_Flag, char ** Error_Type,
         return;
     }
 
-    if( fseek( Src_file, 0L, SEEK_END ) != 0 )
+    if( fseek( wav_file, 0L, SEEK_END ) != 0 )
     {
         *Error_Flag = 1;
         *Error_Type = "Could not reach end of source file";
         safe_free( input_data );
         printf ("%s!\n", *Error_Type);
-        fclose( Src_file );
+        fclose( wav_file );
         return;
     }
-    file_size = ftell( Src_file );
+    file_size = ftell( wav_file );
     if( file_size < 0L )
     {
         *Error_Flag = 1;
         *Error_Type = "Could not measure length of source file";
         safe_free( input_data );
         printf ("%s!\n", *Error_Type);
-        fclose( Src_file );
+        fclose( wav_file );
         return;
     }
-    if( fseek( Src_file, 0L, SEEK_SET ) != 0 )
+    if( fseek( wav_file, 0L, SEEK_SET ) != 0 )
     {
         *Error_Flag = 1;
         *Error_Type = "Could not reach start of source file";
         safe_free( input_data );
         printf ("%s!\n", *Error_Type);
-        fclose( Src_file );
+        fclose( wav_file );
         return;
     }
     name_len = strlen( sinfo-> path_name );
@@ -269,7 +269,7 @@ void load_src( long * Error_Flag, char ** Error_Type,
             header_size = 22;
         if( strcmp( sinfo-> path_name + name_len - 4, ".raw" ) == 0 )
             header_size = 0;
-        if( strcmp( sinfo-> path_name + name_len - 4, ".src" ) == 0 )
+        if( strcmp( sinfo-> path_name + name_len - 4, ".wav" ) == 0 )
             header_size = 0;
     }
     if( name_len > 2 )
@@ -279,7 +279,7 @@ void load_src( long * Error_Flag, char ** Error_Type,
     }
 
     if( header_size > 0 )
-        fread( input_data, 2, header_size, Src_file );
+        fread( input_data, 2, header_size, wav_file );
 */
 //     Nsamples = (file_size / 2) - header_size;
     Nsamples = sinfo-> Nsamples;
@@ -292,7 +292,7 @@ void load_src( long * Error_Flag, char ** Error_Type,
         *Error_Type = "Failed to allocate memory for source file";
         safe_free( input_data );
         printf ("%s!\n", *Error_Type);
-//         fclose( Src_file );
+//         fclose( wav_file );
         return;
     }
 
@@ -304,7 +304,7 @@ void load_src( long * Error_Flag, char ** Error_Type,
     /*to_read = Nsamples;
     while( to_read > 16384 )
     {
-        read_count = fread( input_data, sizeof(short), 16384, Src_file );
+        read_count = fread( input_data, sizeof(short), 16384, wav_file );
         if( read_count < 16384 )
         {
             *Error_Flag = 1;
@@ -313,7 +313,7 @@ void load_src( long * Error_Flag, char ** Error_Type,
             safe_free( input_data );
             safe_free( sinfo-> data );
             sinfo-> data = NULL;
-            fclose( Src_file );
+            fclose( wav_file );
             return;
         }
         if( sinfo-> apply_swap )
@@ -334,7 +334,7 @@ void load_src( long * Error_Flag, char ** Error_Type,
             *(read_ptr++) = (float)(*(p_input++));
         }
     }
-    read_count = fread( input_data, sizeof(short), to_read, Src_file );
+    read_count = fread( input_data, sizeof(short), to_read, wav_file );
     if( read_count < to_read )
     {
         *Error_Flag = 1;
@@ -343,7 +343,7 @@ void load_src( long * Error_Flag, char ** Error_Type,
         safe_free( input_data );
         safe_free( sinfo-> data );
         sinfo-> data = NULL;
-        fclose( Src_file );
+        fclose( wav_file );
         return;
     }
     if( sinfo-> apply_swap )
@@ -375,7 +375,7 @@ void load_src( long * Error_Flag, char ** Error_Type,
          read_count > 0; read_count-- )
       *(read_ptr++) = 0.0f;
 
-    //fclose( Src_file );
+    //fclose( wav_file );
     safe_free( input_data );
     input_data = NULL;
 

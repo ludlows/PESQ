@@ -1,0 +1,14 @@
+{
+    "python.pythonPath": "/usr/local/bin/python3",
+    "python.testing.pytestArgs": [
+        "audio"
+    ],
+    "python.testing.unittestEnabled": false,
+    "python.testing.nosetestsEnabled": false,
+    "python.testing.pytestEnabled": true,
+    "python.linting.enabled": true,
+    "python.linting.flake8Enabled": false,
+    "python.linting.banditEnabled": false,
+    "python.linting.pylintEnabled": true,
+    "python.linting.mypyEnabled": false
+}

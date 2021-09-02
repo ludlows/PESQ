@@ -281,14 +281,14 @@ void pesq_measure (SIGNAL_INFO * ref_info, SIGNAL_INFO * deg_info,
     }
 
     // Load Reference Buffer
-    load_src(Error_Flag, Error_Type, ref_info);
+    load_wav(Error_Flag, Error_Type, ref_info);
     if (*Error_Flag != 0) {
         *Error_Flag = PESQ_ERROR_OUT_OF_MEMORY_REF;
         goto cleanup;
     }
 
     // Load Degraded Buffer
-    load_src(Error_Flag, Error_Type, deg_info);
+    load_wav(Error_Flag, Error_Type, deg_info);
     if (*Error_Flag != 0) {
         *Error_Flag = PESQ_ERROR_OUT_OF_MEMORY_DEG;
         goto cleanup;
