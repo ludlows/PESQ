@@ -1,5 +1,6 @@
 
 # This was planed to run on a my LAPTOP 
+The original core depository is : https://github.com/ludlows/python-pesq I just modified and wrap it in a script that conduct testing and gives results
 you will need to activate the mic from the terminal
 see follwing for more info  : https://stackoverflow.com/questions/58211407/pyaudio-generating-blank-wav-files
 
