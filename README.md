@@ -1,4 +1,6 @@
 # python-pesq
+[![Downloads](https://pepy.tech/badge/pesq)](https://pepy.tech/project/pesq)
+[![Downloads](https://pepy.tech/badge/pesq/month)](https://pepy.tech/project/pesq)
 
 PESQ (Perceptual Evaluation of Speech Quality) Wrapper for Python Users
 
@@ -91,6 +93,10 @@ The original C soure code is modified.
 
 # Who is using `python-pesq`
 Please click [here](https://github.com/ludlows/python-pesq/network/dependents) to see these repositories, whose owners include `Facebook Research`, `SpeechBrain`, `NVIDIA` .etc.
+
+# Acknowledgement
+This work was funded by the Natural Sciences and Engineering Research Council of Canada.
+
 
 
 # Buy me a Coffee
