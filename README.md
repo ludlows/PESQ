@@ -75,6 +75,25 @@ print(pesq(rate, ref, deg, 'wb'))
 print(pesq(rate, ref, deg, 'nb'))
 ```
 
+# Usage for batch version
+
+```python
+def pesq_batch(fs, ref, deg, mode, on_error=PesqError.RAISE_EXCEPTION):
+    """
+    Args:
+        ref: numpy 1D or 2D array, shape (n_audio, length) ,reference audio signal
+        deg: numpy 1D or 2D array, shape (n_audio, length), degraded audio signal 
+        fs:  integer, sampling rate
+        mode: 'wb' (wide-band) or 'nb' (narrow-band)
+        on_error: error-handling behavior, it could be PesqError.RETURN_VALUES or PesqError.RAISE_EXCEPTION by default
+    Returns:
+        pesq_score: numpy 1D array, shape (n_audio,) P.862.2 Prediction (MOS-LQO)
+    """
+```
+
+
+
+
 # Correctness
 
 The correctness is verified by running samples in audio folder.
@@ -98,3 +117,5 @@ Please click [here](https://github.com/ludlows/python-pesq/network/dependents) t
 # Acknowledgement
 
 This work was funded by the Natural Sciences and Engineering Research Council of Canada.
+
+This work was also funded by the Concordia University, Montreal, Canada.

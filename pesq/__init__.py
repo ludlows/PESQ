@@ -8,10 +8,17 @@ from .cypesq import PesqError, InvalidSampleRateError, OutOfMemoryError
 from .cypesq import BufferTooShortError, NoUtterancesError
 
 USAGE = """
-       Run model on reference ref and degraded deg
-       Sample rate (fs) - No default. Must select either 8000 or 16000.
-       Note there is narrow band (nb) mode only when sampling rate is 8000Hz.
+        Run model on reference(ref) and degraded(deg)
+        Sample rate (fs) - No default. Must select either 8000 or 16000.
+        Note there is narrow band (nb) mode only when sampling rate is 8000Hz.
        """
+
+USAGE_BATCH = USAGE + """
+        The shapes of ref and deg should be same if both are 2D numpy arrays.
+        Once the deg is 1D numpy array, the broadcast operation is applied. 
+        """
+
+
 def pesq(fs, ref, deg, mode, on_error=PesqError.RAISE_EXCEPTION):
     """
     Args:
@@ -48,10 +55,34 @@ def pesq(fs, ref, deg, mode, on_error=PesqError.RAISE_EXCEPTION):
             (deg/maxval).astype(np.float32),
             mode_code
         )
-    else:
-        return cypesq(
+    return cypesq(
             fs,
             (ref/maxval).astype(np.float32),
             (deg/maxval).astype(np.float32),
             mode_code
         )
+
+def pesq_batch(fs, ref, deg, mode, on_error=PesqError.RAISE_EXCEPTION):
+    """
+    Args:
+        ref: numpy 1D array, reference audio signal 
+        deg: numpy 1D or 2D array, degraded audio signal
+        fs:  integer, sampling rate
+        mode: 'wb' (wide-band) or 'nb' (narrow-band)
+    Returns:
+        pesq_score: numpy 1D array, P.862.2 Prediction (MOS-LQO)
+    """
+    # check mode
+    if mode != 'wb' and mode != 'nb':
+        print(USAGE_BATCH)
+        raise ValueError("mode should be either 'nb' or 'wb'")
+    # check fs
+    if fs != 8000 and fs != 16000:
+        print(USAGE_BATCH)
+        raise ValueError("fs (sampling frequency) should be either 8000 or 16000")
+
+    if fs == 8000 and mode == 'wb':
+        print(USAGE_BATCH)
+        raise ValueError("no wide band mode if fs = 8000")
+    # normalization
+    
