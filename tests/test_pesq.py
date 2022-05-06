@@ -55,7 +55,7 @@ def test_no_utterances_wb_mode():
     return score
 
 
-if __name__ == "__main__":
-    print(test())
-    print(test_no_utterances_wb_mode())
-    print(test_no_utterances_nb_mode())
+# if __name__ == "__main__":
+#     print(test())
+#     print(test_no_utterances_wb_mode())
+#     print(test_no_utterances_nb_mode())
