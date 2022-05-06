@@ -19,7 +19,7 @@ USAGE_BATCH = USAGE + """
         """
 
 
-def check_fs_mode(mode, fs, usage=USAGE):
+def _check_fs_mode(mode, fs, usage=USAGE):
     if mode != 'wb' and mode != 'nb':
         print(usage)
         raise ValueError("mode should be either 'nb' or 'wb'")
@@ -33,7 +33,7 @@ def check_fs_mode(mode, fs, usage=USAGE):
         raise ValueError("no wide band mode if fs = 8000")
 
 
-def pesq_inner(fs, ref, deg, mode, on_error):
+def _pesq_inner(fs, ref, deg, mode, on_error):
     """
     Args:
         ref: numpy 1D array, reference audio signal
@@ -75,8 +75,8 @@ def pesq(fs, ref, deg, mode, on_error=PesqError.RAISE_EXCEPTION):
     Returns:
         pesq_score: float, P.862.2 Prediction (MOS-LQO)
     """
-    check_fs_mode(mode, fs, USAGE)
-    return pesq_inner(fs, ref, deg, mode, on_error)
+    _check_fs_mode(mode, fs, USAGE)
+    return _pesq_inner(fs, ref, deg, mode, on_error)
 
 
 def pesq_batch(fs, ref, deg, mode, on_error=PesqError.RAISE_EXCEPTION):
@@ -90,15 +90,15 @@ def pesq_batch(fs, ref, deg, mode, on_error=PesqError.RAISE_EXCEPTION):
     Returns:
         pesq_score: numpy 1D array, P.862.2 Prediction (MOS-LQO)
     """
-    check_fs_mode(mode, fs, USAGE_BATCH)
+    _check_fs_mode(mode, fs, USAGE_BATCH)
     # check dimension
     if len(ref.shape) == 1:
         if len(deg.shape) == 1 and ref.shape == deg.shape:
-            return pesq_inner(fs, ref, deg, mode, on_error)
+            return _pesq_inner(fs, ref, deg, mode, on_error)
         elif len(deg.shape) == 2 and ref.shape[-1] == deg.shape[-1]:
             pesq_score = np.array([np.nan for i in range(deg.shape[0])])
             for i in range(deg.shape[0]):
-                pesq_score[i] = pesq_inner(fs, ref, deg[i, :], mode, on_error)
+                pesq_score[i] = _pesq_inner(fs, ref, deg[i, :], mode, on_error)
             return pesq_score
         else:
             raise ValueError("The shapes of `deg` is invalid!")
@@ -106,7 +106,7 @@ def pesq_batch(fs, ref, deg, mode, on_error=PesqError.RAISE_EXCEPTION):
         if deg.shape == ref.shape:
             pesq_score = np.array([np.nan for i in range(deg.shape[0])])
             for i in range(deg.shape[0]):
-                pesq_score[i] = pesq_inner(fs, ref[i, :], deg[i, :], mode, on_error)
+                pesq_score[i] = _pesq_inner(fs, ref[i, :], deg[i, :], mode, on_error)
             return pesq_score
         else:
             raise ValueError("The shape of `deg` is invalid!")
