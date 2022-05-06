@@ -6,6 +6,7 @@ from pathlib import Path
 
 from pesq import pesq, NoUtterancesError, PesqError
 
+
 def test():
     data_dir = Path(__file__).parent.parent / 'audio'
     ref_path = data_dir / 'speech.wav'
@@ -22,29 +23,30 @@ def test():
 
     assert score == 1.6072081327438354, score
 
+
 def test_no_utterances_nb_mode():
-    SAMPLE_RATE = 8000
-    silent_ref = np.zeros(SAMPLE_RATE)
-    deg        = np.random.randn(SAMPLE_RATE)
+    sample_rate = 8000
+    silent_ref = np.zeros(sample_rate)
+    deg = np.random.randn(sample_rate)
 
     with pytest.raises(NoUtterancesError) as e:
-        pesq(ref=silent_ref, deg=deg, fs=SAMPLE_RATE, mode='nb')
+        pesq(ref=silent_ref, deg=deg, fs=sample_rate, mode='nb')
 
-    score = pesq(ref=silent_ref, deg=deg, fs=SAMPLE_RATE, mode='nb',
-        on_error=PesqError.RETURN_VALUES)
+    score = pesq(ref=silent_ref, deg=deg, fs=sample_rate, mode='nb',
+                 on_error=PesqError.RETURN_VALUES)
 
     assert score == PesqError.NO_UTTERANCES_DETECTED, score
+
 
 def test_no_utterances_wb_mode():
-    SAMPLE_RATE = 16000
-    silent_ref = np.zeros(SAMPLE_RATE)
-    deg        = np.random.randn(SAMPLE_RATE)
+    sample_rate = 16000
+    silent_ref = np.zeros(sample_rate)
+    deg = np.random.randn(sample_rate)
 
     with pytest.raises(NoUtterancesError) as e:
-        pesq(ref=silent_ref, deg=deg, fs=SAMPLE_RATE, mode='wb')
+        pesq(ref=silent_ref, deg=deg, fs=sample_rate, mode='wb')
 
-    score = pesq(ref=silent_ref, deg=deg, fs=SAMPLE_RATE, mode='wb',
-        on_error=PesqError.RETURN_VALUES)
+    score = pesq(ref=silent_ref, deg=deg, fs=sample_rate, mode='wb',
+                 on_error=PesqError.RETURN_VALUES)
 
     assert score == PesqError.NO_UTTERANCES_DETECTED, score
-

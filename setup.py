@@ -1,9 +1,8 @@
 # 2019-May
 # github.com/ludlows
-# Python Wrapper for PESQ Score (narrow band and wide band)
+# Python Wrapper for PESQ Score (narrowband and wideband)
 from setuptools import find_packages
 from setuptools import setup, Extension
-
 
 with open("README.md", "r") as fh:
     long_description = fh.read()
@@ -27,20 +26,20 @@ class CyPesqExtension(Extension):
 extensions = [
     CyPesqExtension(
         "cypesq",
-        ["pesq/cypesq.pyx", "pesq/dsp.c", "pesq/pesqdsp.c","pesq/pesqmod.c"],
+        ["pesq/cypesq.pyx", "pesq/dsp.c", "pesq/pesqdsp.c", "pesq/pesqmod.c"],
         include_dirs=['pesq'],
         language="c")
 ]
 setup(
     name="pesq",
-    version="0.0.3",
+    version="0.0.4",
     author="ludlows",
     description="Python Wrapper for PESQ Score (narrow band and wide band)",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/ludlows/python-pesq",
     packages=find_packages(),
-    package_data={'pesq':["*.pyx", "*.h", "dsp.c", "pesqdsp.c", "pesqmod.c"]},
+    package_data={'pesq': ["*.pyx", "*.h", "dsp.c", "pesqdsp.c", "pesqmod.c"]},
     ext_package='pesq',
     ext_modules=extensions,
     setup_requires=['setuptools>=18.0', 'cython', 'numpy', 'pytest-runner'],
