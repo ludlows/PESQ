@@ -81,13 +81,13 @@ print(pesq(rate, ref, deg, 'nb'))
 def pesq_batch(fs, ref, deg, mode, on_error=PesqError.RAISE_EXCEPTION):
     """
     Args:
-        ref: numpy 1D or 2D array, shape (n_audio, length) ,reference audio signal
-        deg: numpy 1D or 2D array, shape (n_audio, length), degraded audio signal 
+        ref: numpy 1D or 2D array, shape (n_file, n_sample), reference audio signal
+        deg: numpy 1D or 2D array, shape (n_file, n_sample), degraded audio signal 
         fs:  integer, sampling rate
         mode: 'wb' (wide-band) or 'nb' (narrow-band)
         on_error: error-handling behavior, it could be PesqError.RETURN_VALUES or PesqError.RAISE_EXCEPTION by default
     Returns:
-        pesq_score: numpy 1D array, shape (n_audio,) P.862.2 Prediction (MOS-LQO)
+        pesq_score: numpy 1D array, shape (n_file,) P.862.2 Prediction (MOS-LQO)
     """
 ```
 
@@ -98,17 +98,17 @@ def pesq_batch(fs, ref, deg, mode, on_error=PesqError.RAISE_EXCEPTION):
 
 The correctness is verified by running samples in audio folder.
 
-PESQ computed by this code in wide band mode is    1.0832337141036987
+PESQ computed by this code in wideband mode is    1.0832337141036987
 
-PESQ computed by this code in narrow band mode is  1.6072081327438354
+PESQ computed by this code in narrowband mode is  1.6072081327438354
 
 # Note
 
 Sampling rate (fs|rate) - No default. Must select either 8000Hz or 16000Hz.
  
-Note there is narrow band (nb) mode only when sampling rate is 8000Hz.
+Note there is narrowband (nb) mode only when sampling rate is 8000Hz.
 
-The original C soure code is modified. 
+The original C source code is modified. 
 
 # Who is using `pesq`
 
