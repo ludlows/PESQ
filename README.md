@@ -37,11 +37,11 @@ $ pip install https://github.com/ludlows/python-pesq/archive/master.zip
 $ pip3 install https://github.com/ludlows/python-pesq/archive/master.zip
 ```
 
-# Usage for narrow-band and wide-band Modes
+# Usage for narrowband and wideband Modes
 
 Please note that the sampling rate (frequency) should be 16000 or 8000 (Hz). 
 
-And using 8000Hz is supported for narrow band only.
+And using 8000Hz is supported for narrowband only.
 
 The code supports error-handling behaviors now.
 
@@ -79,25 +79,20 @@ print(pesq(rate, ref, deg, 'nb'))
 
 The correctness is verified by running samples in audio folder.
 
-PESQ computed by this code in wide band mode is    1.0832337141036987
+PESQ computed by this code in wideband mode is    1.0832337141036987
 
-PESQ computed by this code in narrow band mode is  1.6072081327438354
+PESQ computed by this code in narrowband mode is  1.6072081327438354
 
 # Note
 
 Sampling rate (fs|rate) - No default. Must select either 8000Hz or 16000Hz.
  
-Note there is narrow band (nb) mode only when sampling rate is 8000Hz.
+Note there is narrowband (nb) mode only when sampling rate is 8000Hz.
 
-The original C soure code is modified. 
+The original C source code is modified. 
 
 # Who is using `python-pesq`
 Please click [here](https://github.com/ludlows/python-pesq/network/dependents) to see these repositories, whose owners include `Facebook Research`, `SpeechBrain`, `NVIDIA` .etc.
 
 # Acknowledgement
 This work was funded by the Natural Sciences and Engineering Research Council of Canada.
-
-
-
-# Buy me a Coffee
-[Buy](https://www.paypal.me/wangmiao521) me a Coffee if my work helps you in some ways.

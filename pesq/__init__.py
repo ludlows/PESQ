@@ -1,6 +1,6 @@
 # 2019-May
 # github.com/ludlows
-# Python Wrapper for PESQ Score (narrow band and wide band)
+# Python Wrapper for PESQ Score (narrowband and wideband)
 
 import numpy as np
 from .cypesq import cypesq, cypesq_retvals, cypesq_error_message as pesq_error_message
@@ -12,13 +12,16 @@ USAGE = """
        Sample rate (fs) - No default. Must select either 8000 or 16000.
        Note there is narrow band (nb) mode only when sampling rate is 8000Hz.
        """
+
+
 def pesq(fs, ref, deg, mode, on_error=PesqError.RAISE_EXCEPTION):
     """
     Args:
-        ref: numpy 1D array, reference audio signal 
+        ref: numpy 1D array, reference audio signal
         deg: numpy 1D array, degraded audio signal
         fs:  integer, sampling rate
         mode: 'wb' (wide-band) or 'nb' (narrow-band)
+        on_error: PesqError.RAISE_EXCEPTION (default) or PesqError.RETURN_VALUES
     Returns:
         pesq_score: float, P.862.2 Prediction (MOS-LQO)
     """
@@ -34,24 +37,24 @@ def pesq(fs, ref, deg, mode, on_error=PesqError.RAISE_EXCEPTION):
         print(USAGE)
         raise ValueError("no wide band mode if fs = 8000")
 
-    maxval = max(np.max(np.abs(ref/1.0)), np.max(np.abs(deg/1.0)))
+    max_val = max(np.max(np.abs(ref / 1.0)), np.max(np.abs(deg / 1.0)))
 
     if mode == 'wb':
         mode_code = 1
     else:
         mode_code = 0
-    
+
     if on_error == PesqError.RETURN_VALUES:
         return cypesq_retvals(
             fs,
-            (ref/maxval).astype(np.float32),
-            (deg/maxval).astype(np.float32),
+            (ref / max_val).astype(np.float32),
+            (deg / max_val).astype(np.float32),
             mode_code
         )
     else:
         return cypesq(
             fs,
-            (ref/maxval).astype(np.float32),
-            (deg/maxval).astype(np.float32),
+            (ref / max_val).astype(np.float32),
+            (deg / max_val).astype(np.float32),
             mode_code
         )
