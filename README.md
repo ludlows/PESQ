@@ -1,4 +1,4 @@
-# python-pesq
+# pesq
 [![Downloads](https://pepy.tech/badge/pesq)](https://pepy.tech/project/pesq)
 [![Downloads](https://pepy.tech/badge/pesq/month)](https://pepy.tech/project/pesq)
 
@@ -91,7 +91,7 @@ Note there is narrowband (nb) mode only when sampling rate is 8000Hz.
 
 The original C source code is modified. 
 
-# Who is using `python-pesq`
+# Who is using `pesq`
 Please click [here](https://github.com/ludlows/python-pesq/network/dependents) to see these repositories, whose owners include `Facebook Research`, `SpeechBrain`, `NVIDIA` .etc.
 
 # Acknowledgement
