@@ -65,22 +65,35 @@ def test_pesq_batch():
 
     # 1D - 1D
     score = pesq_batch(ref=ref, deg=deg, fs=sample_rate, mode='wb')
-    assert score == 1.0832337141036987, score
+    assert score == [1.0832337141036987], score
 
     # 1D - 2D
     deg_2d = np.repeat(deg[np.newaxis, :], n_file, axis=0)
     scores = pesq_batch(ref=ref, deg=deg_2d, fs=sample_rate, mode='wb')
-    assert np.allclose(scores, ideally), scores
+    assert np.allclose(np.array(scores), ideally), scores
 
     # 2D - 2D
     ref_2d = np.repeat(ref[np.newaxis, :], n_file, axis=0)
     scores = pesq_batch(ref=ref_2d, deg=deg_2d, fs=sample_rate, mode='wb')
-    assert np.allclose(scores, ideally), scores
+    assert np.allclose(np.array(scores), ideally), scores
 
     # narrowband
     score = pesq_batch(ref=ref, deg=deg, fs=sample_rate, mode='nb')
-    assert score == 1.6072081327438354, score
+    assert score == [1.6072081327438354], score
+
+    # 1D - 2D multiprocessing
+    deg_2d = np.repeat(deg[np.newaxis, :], n_file, axis=0)
+    scores = pesq_batch(ref=ref, deg=deg_2d, fs=sample_rate, mode='wb', n_processor=4)
+    assert np.allclose(np.array(scores), ideally), scores
+
+    # 2D - 2D multiprocessing
+    ref_2d = np.repeat(ref[np.newaxis, :], n_file, axis=0)
+    scores = pesq_batch(ref=ref_2d, deg=deg_2d, fs=sample_rate, mode='wb', n_processor=4)
+    assert np.allclose(np.array(scores), ideally), scores
 
 
 if __name__ == "__main__":
+    test()
+    test_no_utterances_nb_mode()
+    test_no_utterances_wb_mode()
     test_pesq_batch()

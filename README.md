@@ -46,7 +46,7 @@ And using 8000Hz is supported for narrow band only.
 The code supports error-handling behaviors now.
 
 ```python
-def pesq(fs, ref, deg, mode, on_error=PesqError.RAISE_EXCEPTION):
+def pesq(fs, ref, deg, mode='wb', on_error=PesqError.RAISE_EXCEPTION):
     """
     Args:
         ref: numpy 1D array, reference audio signal 
@@ -78,20 +78,26 @@ print(pesq(rate, ref, deg, 'nb'))
 # Usage for batch version
 
 ```python
-def pesq_batch(fs, ref, deg, mode, on_error=PesqError.RAISE_EXCEPTION):
+def pesq_batch(fs, ref, deg, mode='wb', n_processor=None, on_error=PesqError.RAISE_EXCEPTION):
     """
+    Running `pesq` using multiple processors
     Args:
-        ref: numpy 1D or 2D array, shape (n_file, n_sample), reference audio signal
-        deg: numpy 1D or 2D array, shape (n_file, n_sample), degraded audio signal 
+        on_error:
+        ref: numpy 1D (n_sample,) or 2D array (n_file, n_sample), reference audio signal
+        deg: numpy 1D (n_sample,) or 2D array (n_file, n_sample), degraded audio signal
         fs:  integer, sampling rate
         mode: 'wb' (wide-band) or 'nb' (narrow-band)
-        on_error: error-handling behavior, it could be PesqError.RETURN_VALUES or PesqError.RAISE_EXCEPTION by default
+        n_processor:  None (without multiprocessing) or number of processors
+        on_error:
     Returns:
-        pesq_score: numpy 1D array, shape (n_file,) P.862.2 Prediction (MOS-LQO)
+        pesq_score: list of pesq scores, P.862.2 Prediction (MOS-LQO)
     """
 ```
+this function uses `multiprocessing` features to boost time efficiency.
 
+When the `ref` is an 1-D numpy array and `deg` is a 2-D numpy array, the result of `pesq_batch` is identical to the value of `[pesq(fs, ref, deg[i,:],**kwargs) for i in range(deg.shape[0])]`.
 
+When the `ref` is a 2-D numpy array and `deg` is a 2-D numpy array, the result of `pesq_batch` is identical to the value of `[pesq(fs, ref[i,:], deg[i,:],**kwargs) for i in range(deg.shape[0])]`.
 
 
 # Correctness
