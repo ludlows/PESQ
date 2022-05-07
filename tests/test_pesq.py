@@ -92,8 +92,30 @@ def test_pesq_batch():
     assert np.allclose(np.array(scores), ideally), scores
 
 
-if __name__ == "__main__":
-    test()
-    test_no_utterances_nb_mode()
-    test_no_utterances_wb_mode()
-    test_pesq_batch()
+# def test_time_efficiency():
+#     data_dir = Path(__file__).parent.parent / 'audio'
+#     ref_path = data_dir / 'speech.wav'
+#     deg_path = data_dir / 'speech_bab_0dB.wav'
+#
+#     sample_rate, ref = scipy.io.wavfile.read(ref_path)
+#     sample_rate, deg = scipy.io.wavfile.read(deg_path)
+#     import time
+#     nums = [100, 1000, 10000]
+#     durations = []
+#     n_processors = 8
+#     degs = [np.repeat(deg[np.newaxis, :], n, axis=0) for n in nums]
+#     for d, n in zip(degs, nums):
+#         start = time.time()
+#         pesq_batch(ref=ref, deg=d, fs=sample_rate, mode='wb', n_processor=n_processors)
+#         end = time.time()
+#         durations.append(end - start)
+#     print(durations)
+#     # [5.192636251449585, 30.032038688659668, 294.47159910202026]
+
+
+# if __name__ == "__main__":
+    # test()
+    # test_no_utterances_nb_mode()
+    # test_no_utterances_wb_mode()
+    # test_pesq_batch()
+

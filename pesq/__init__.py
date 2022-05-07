@@ -5,8 +5,9 @@
 import numpy as np
 from multiprocessing import Pool, Queue, Process
 from functools import partial
-from .cypesq import cypesq, cypesq_retvals
-from .cypesq import PesqError
+from .cypesq import cypesq, cypesq_retvals, cypesq_error_message as pesq_error_message
+from .cypesq import PesqError, InvalidSampleRateError, OutOfMemoryError
+from .cypesq import BufferTooShortError, NoUtterancesError
 
 USAGE = """
         Run model on reference(ref) and degraded(deg)
