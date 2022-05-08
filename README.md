@@ -75,6 +75,34 @@ print(pesq(rate, ref, deg, 'wb'))
 print(pesq(rate, ref, deg, 'nb'))
 ```
 
+# Possible `multiprocessing` feature in `v0.0.4`
+In case of you need to run `pesq` with multiprocessors, please install the version on `dev` branch. 
+```bash
+pip install https://github.com/ludlows/python-pesq/archive/refs/heads/dev.zip
+```
+and use the function `pesq_batch`.
+
+```python
+def pesq_batch(fs, ref, deg, mode='wb', n_processor=None, on_error=PesqError.RAISE_EXCEPTION):
+    """
+    Running `pesq` using multiple processors
+    Args:
+        on_error:
+        ref: numpy 1D (n_sample,) or 2D array (n_file, n_sample), reference audio signal
+        deg: numpy 1D (n_sample,) or 2D array (n_file, n_sample), degraded audio signal
+        fs:  integer, sampling rate
+        mode: 'wb' (wide-band) or 'nb' (narrow-band)
+        n_processor:  None (without multiprocessing) or number of processors
+        on_error: error-handling behavior, it could be PesqError.RETURN_VALUES or PesqError.RAISE_EXCEPTION by default
+    Returns:
+        pesq_score: list of pesq scores, P.862.2 Prediction (MOS-LQO)
+    """
+```
+
+
+
+
+
 # Correctness
 
 The correctness is verified by running samples in audio folder.
