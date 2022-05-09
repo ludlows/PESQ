@@ -80,15 +80,15 @@ print(pesq(rate, ref, deg, 'nb'))
 ```python
 def pesq_batch(fs, ref, deg, mode='wb', n_processor=None, on_error=PesqError.RAISE_EXCEPTION):
     """
-    Running `pesq` using multiple processors
+   Running `pesq` using multiple processors
     Args:
         on_error:
         ref: numpy 1D (n_sample,) or 2D array (n_file, n_sample), reference audio signal
         deg: numpy 1D (n_sample,) or 2D array (n_file, n_sample), degraded audio signal
         fs:  integer, sampling rate
         mode: 'wb' (wide-band) or 'nb' (narrow-band)
-        n_processor:  None (without multiprocessing) or number of processors
-        on_error:
+        n_processor: cpu_count() (default) or number of processors (chosen by the user) or 0 (without multiprocessing)
+        on_error: PesqError.RAISE_EXCEPTION (default) or PesqError.RETURN_VALUES
     Returns:
         pesq_score: list of pesq scores, P.862.2 Prediction (MOS-LQO)
     """

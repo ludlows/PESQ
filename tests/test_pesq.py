@@ -114,8 +114,8 @@ def test_pesq_batch():
 
 
 # if __name__ == "__main__":
-    # test()
-    # test_no_utterances_nb_mode()
-    # test_no_utterances_wb_mode()
-    # test_pesq_batch()
+#     test()
+#     test_no_utterances_nb_mode()
+#     test_no_utterances_wb_mode()
+#     test_pesq_batch()
 
