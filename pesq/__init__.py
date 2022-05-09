@@ -3,7 +3,7 @@
 # Python Wrapper for PESQ Score (narrowband and wideband)
 
 import numpy as np
-from multiprocessing import Pool, Queue, Process
+from multiprocessing import Pool, Queue, Process, cpu_count
 from functools import partial
 from .cypesq import cypesq, cypesq_retvals, cypesq_error_message as pesq_error_message
 from .cypesq import PesqError, InvalidSampleRateError, OutOfMemoryError
@@ -110,7 +110,7 @@ def pesq(fs, ref, deg, mode='wb', on_error=PesqError.RAISE_EXCEPTION):
     return _pesq_inner(ref, deg, fs, mode, on_error)
 
 
-def pesq_batch(fs, ref, deg, mode, n_processor=None, on_error=PesqError.RAISE_EXCEPTION):
+def pesq_batch(fs, ref, deg, mode, n_processor=cpu_count(), on_error=PesqError.RAISE_EXCEPTION):
     """
     Running `pesq` using multiple processors
     Args:
@@ -119,8 +119,8 @@ def pesq_batch(fs, ref, deg, mode, n_processor=None, on_error=PesqError.RAISE_EX
         deg: numpy 1D (n_sample,) or 2D array (n_file, n_sample), degraded audio signal
         fs:  integer, sampling rate
         mode: 'wb' (wide-band) or 'nb' (narrow-band)
-        n_processor:  None (without multiprocessing) or number of processors
-        on_error:
+        n_processor: cpu_count() (default) or number of processors (chosen by the user) or -1 (without multiprocessing)
+        on_error: PesqError.RAISE_EXCEPTION (default) or PesqError.RETURN_VALUES
     Returns:
         pesq_score: list of pesq scores, P.862.2 Prediction (MOS-LQO)
     """
@@ -130,7 +130,7 @@ def pesq_batch(fs, ref, deg, mode, n_processor=None, on_error=PesqError.RAISE_EX
         if len(deg.shape) == 1 and ref.shape == deg.shape:
             return [_pesq_inner(ref, deg, fs, mode, PesqError.RETURN_VALUES)]
         elif len(deg.shape) == 2 and ref.shape[-1] == deg.shape[-1]:
-            if n_processor is None:
+            if n_processor < 0:
                 pesq_score = [np.nan for i in range(deg.shape[0])]
                 for i in range(deg.shape[0]):
                     pesq_score[i] = _pesq_inner(ref, deg[i, :], fs, mode, on_error)
@@ -143,7 +143,7 @@ def pesq_batch(fs, ref, deg, mode, n_processor=None, on_error=PesqError.RAISE_EX
             raise ValueError("The shapes of `deg` is invalid!")
     elif len(ref.shape) == 2:
         if deg.shape == ref.shape:
-            if n_processor is None:
+            if n_processor < 0:
                 pesq_score = [np.nan for i in range(deg.shape[0])]
                 for i in range(deg.shape[0]):
                     pesq_score[i] = _pesq_inner(ref[i, :], deg[i, :], fs, mode, on_error)
