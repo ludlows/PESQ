@@ -1,8 +1,8 @@
-import pytest
-import numpy as np
-import scipy.io.wavfile
-
 from pathlib import Path
+
+import numpy as np
+import pytest
+import scipy.io.wavfile
 
 from pesq import pesq, pesq_batch, NoUtterancesError, PesqError
 
