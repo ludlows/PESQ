@@ -22,6 +22,7 @@ def test():
     score = pesq(ref=ref, deg=deg, fs=sample_rate, mode='nb')
 
     assert score == 1.6072081327438354, score
+    return score
 
 
 def test_no_utterances_nb_mode():
@@ -36,6 +37,7 @@ def test_no_utterances_nb_mode():
                  on_error=PesqError.RETURN_VALUES)
 
     assert score == PesqError.NO_UTTERANCES_DETECTED, score
+    return score
 
 
 def test_no_utterances_wb_mode():
@@ -50,6 +52,7 @@ def test_no_utterances_wb_mode():
                  on_error=PesqError.RETURN_VALUES)
 
     assert score == PesqError.NO_UTTERANCES_DETECTED, score
+    return score
 
 
 def test_pesq_batch():

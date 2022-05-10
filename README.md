@@ -37,11 +37,11 @@ $ pip install https://github.com/ludlows/python-pesq/archive/master.zip
 $ pip3 install https://github.com/ludlows/python-pesq/archive/master.zip
 ```
 
-# Usage for narrow-band and wide-band Modes
+# Usage for narrowband and wideband Modes
 
 Please note that the sampling rate (frequency) should be 16000 or 8000 (Hz). 
 
-And using 8000Hz is supported for narrow band only.
+And using 8000Hz is supported for narrowband only.
 
 The code supports error-handling behaviors now.
 
