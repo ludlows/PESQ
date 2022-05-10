@@ -4,3 +4,5 @@
 
 from ._pesq import pesq, pesq_batch
 from ._pesq import PesqError, InvalidSampleRateError, OutOfMemoryError, BufferTooShortError, NoUtterancesError
+__all__ = ['pesq', 'pesq_batch',
+           'PesqError', 'InvalidSampleRateError', 'OutOfMemoryError', 'BufferTooShortError', 'NoUtterancesError']

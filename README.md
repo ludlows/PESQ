@@ -75,7 +75,7 @@ print(pesq(rate, ref, deg, 'wb'))
 print(pesq(rate, ref, deg, 'nb'))
 ```
 
-# Usage for batch version
+# Usage for `multiprocessing` feature
 
 ```python
 def pesq_batch(fs, ref, deg, mode='wb', n_processor=None, on_error=PesqError.RAISE_EXCEPTION):
