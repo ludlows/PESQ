@@ -1,4 +1,5 @@
 # pesq
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6549559.svg)](https://doi.org/10.5281/zenodo.6549559)
 [![Downloads](https://pepy.tech/badge/pesq)](https://pepy.tech/project/pesq)
 [![Downloads](https://pepy.tech/badge/pesq/month)](https://pepy.tech/project/pesq)
 
@@ -119,6 +120,24 @@ The original C source code is modified.
 # Who is using `pesq`
 
 Please click [here](https://github.com/ludlows/python-pesq/network/dependents) to see these repositories, whose owners include `Facebook Research`, `SpeechBrain`, `NVIDIA` .etc.
+
+# Cite this code
+
+```
+   @software{miao_wang_2022_6549559,
+   author       = {Miao Wang and
+                  Christoph Boeddeker and
+                  Rafael G. Dantas and
+                  ananda seelan},
+   title        = {{ludlows/python-pesq: supporting for 
+                   multiprocessing features}},
+   month        = may,
+   year         = 2022,
+   publisher    = {Zenodo},
+   version      = {v0.0.4},
+   doi          = {10.5281/zenodo.6549559},
+   url          = {https://doi.org/10.5281/zenodo.6549559}}
+```
 
 # Acknowledgement
 
