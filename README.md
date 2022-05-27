@@ -13,15 +13,6 @@ This code is designed for numpy array specially.
     numpy
     cython
 
-# Build and Install
-```bash
-$ git clone https://github.com/ludlows/python-pesq.git
-$ cd python-pesq
-$ pip install .  # for python 2
-$ pip3 install . # for python 3 
-$ cd ..
-$ rm -rf python-pesq # remove the code folder since it exists in the python package folder
-```
 
 # Install with pip
 
@@ -29,13 +20,8 @@ $ rm -rf python-pesq # remove the code folder since it exists in the python pack
 # PyPi Repository
 $ pip install pesq
 
-
 # The Latest Version
 $ pip install https://github.com/ludlows/python-pesq/archive/master.zip
-
-# or
-
-$ pip3 install https://github.com/ludlows/python-pesq/archive/master.zip
 ```
 
 # Usage for narrowband and wideband Modes
