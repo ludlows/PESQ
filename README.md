@@ -111,12 +111,8 @@ Please click [here](https://github.com/ludlows/python-pesq/network/dependents) t
 
 ```
    @software{miao_wang_2022_6549559,
-   author       = {Miao Wang and
-                  Christoph Boeddeker and
-                  Rafael G. Dantas and
-                  ananda seelan},
-   title        = {{ludlows/python-pesq: supporting for 
-                   multiprocessing features}},
+   author       = {Miao Wang, Christoph Boeddeker, Rafael G. Dantas and ananda seelan},
+   title        = {PESQ (Perceptual Evaluation of Speech Quality) Wrapper for Python Users},
    month        = may,
    year         = 2022,
    publisher    = {Zenodo},
