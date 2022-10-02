@@ -253,10 +253,10 @@ long WB_InIIR_Nsos;
 float * WB_InIIR_Hsos;
 long WB_InIIR_Nsos_8k = 1L;
 float WB_InIIR_Hsos_8k[LINIIR] = {
-    2.6657628f,  -5.3315255f,  2.6657628f,  -1.8890331f,  0.89487434f };
+    0.251188 * 2.6657628f,  0.251188 * -5.3315255f,  0.251188 * 2.6657628f,  -1.8890331f,  0.89487434f };
 long WB_InIIR_Nsos_16k = 1L;
 float WB_InIIR_Hsos_16k[LINIIR] = {
-    2.740826f,  -5.4816519f,  2.740826f,  -1.9444777f,  0.94597794f };
+    0.251188 * 2.740826f,  0.251188 * -5.4816519f,  0.251188 * 2.740826f,  -1.9444777f,  0.94597794f };
 
 void pesq_measure (SIGNAL_INFO * ref_info, SIGNAL_INFO * deg_info,
     ERROR_INFO * err_info, long * Error_Flag, char ** Error_Type)
