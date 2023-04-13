@@ -95,6 +95,50 @@ def test_pesq_batch():
     assert np.allclose(np.array(scores), ideally), scores
 
 
+def test_lengths():
+    data_dir = Path(__file__).parent.parent / 'audio'
+    ref_path = data_dir / 'speech.wav'
+    deg_path = data_dir / 'speech_bab_0dB.wav'
+
+    sample_rate, ref = scipy.io.wavfile.read(ref_path)
+    sample_rate, deg = scipy.io.wavfile.read(deg_path)
+
+    n_file = 10
+    # random lengths smaller than len(ref) = 49600
+    lengths = [43433, 40969, 30613, 38570, 45484, 10800, 28424,  22943, 30918, 30784]
+
+    # 1D - 1D -- raises error
+    with pytest.raises(ValueError):
+        pesq_batch(ref=ref, deg=deg, fs=sample_rate, mode='wb', lengths=lengths)
+
+    # 1D - 2D -- raises error
+    deg_2d = np.repeat(deg[np.newaxis, :], n_file, axis=0)
+    with pytest.raises(ValueError):
+        pesq_batch(ref=ref, deg=deg_2d, fs=sample_rate, mode='wb', lengths=lengths)
+
+    # 2D - 2D -- bad len(lenghts)
+    ref_2d = np.repeat(ref[np.newaxis, :], n_file, axis=0)
+    with pytest.raises(ValueError):
+        pesq_batch(ref=ref, deg=deg_2d, fs=sample_rate, mode='wb', lengths=lengths[:3])
+
+    # 2D - 2D
+    ideally = [
+        pesq(ref=ref_2d[i, :length], deg=deg_2d[i, :length], fs=sample_rate, mode='wb')
+        for i, length in enumerate(lengths)
+    ]
+    scores = pesq_batch(ref=ref_2d, deg=deg_2d, fs=sample_rate, mode='wb', lengths=lengths)
+    assert np.allclose(scores, ideally), scores
+
+    # narrowband
+    ref_2d = np.repeat(ref[np.newaxis, :], n_file, axis=0)
+    ideally = [
+        pesq(ref=ref_2d[i, :length], deg=deg_2d[i, :length], fs=sample_rate, mode='nb')
+        for i, length in enumerate(lengths)
+    ]
+    scores = pesq_batch(ref=ref_2d, deg=deg_2d, fs=sample_rate, mode='nb', lengths=lengths)
+    assert np.allclose(scores, ideally), scores
+
+
 # def test_time_efficiency():
 #     data_dir = Path(__file__).parent.parent / 'audio'
 #     ref_path = data_dir / 'speech.wav'
