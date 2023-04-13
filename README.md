@@ -65,9 +65,9 @@ print(pesq(rate, ref, deg, 'nb'))
 # Usage for `multiprocessing` feature
 
 ```python
-def pesq_batch(fs, ref, deg, mode='wb', n_processor=None, on_error=PesqError.RAISE_EXCEPTION):
+def pesq_batch(fs, ref, deg, mode, n_processor=cpu_count(), on_error=PesqError.RAISE_EXCEPTION, lengths=None):
     """
-   Running `pesq` using multiple processors
+    Running `pesq` using multiple processors
     Args:
         on_error:
         ref: numpy 1D (n_sample,) or 2D array (n_file, n_sample), reference audio signal
@@ -76,6 +76,7 @@ def pesq_batch(fs, ref, deg, mode='wb', n_processor=None, on_error=PesqError.RAI
         mode: 'wb' (wide-band) or 'nb' (narrow-band)
         n_processor: cpu_count() (default) or number of processors (chosen by the user) or 0 (without multiprocessing)
         on_error: PesqError.RAISE_EXCEPTION (default) or PesqError.RETURN_VALUES
+        lengths: None or list of original length of audio signals before batching, length n_file
     Returns:
         pesq_score: list of pesq scores, P.862.2 Prediction (MOS-LQO)
     """
@@ -86,6 +87,7 @@ When the `ref` is an 1-D numpy array and `deg` is a 2-D numpy array, the result 
 
 When the `ref` is a 2-D numpy array and `deg` is a 2-D numpy array, the result of `pesq_batch` is identical to the value of `[pesq(fs, ref[i,:], deg[i,:],**kwargs) for i in range(deg.shape[0])]`.
 
+The optional `lengths` argument is useful if the individual audio files initially had different length and were padded to match their length before creating the batch. It ensures the padded samples do not affect the results.
 
 # Correctness
 

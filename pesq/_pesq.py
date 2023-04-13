@@ -114,7 +114,7 @@ def pesq(fs, ref, deg, mode='wb', on_error=PesqError.RAISE_EXCEPTION):
     return _pesq_inner(ref, deg, fs, mode, on_error)
 
 
-def pesq_batch(fs, ref, deg, mode, n_processor=cpu_count(), on_error=PesqError.RAISE_EXCEPTION):
+def pesq_batch(fs, ref, deg, mode, n_processor=cpu_count(), on_error=PesqError.RAISE_EXCEPTION, lengths=None):
     """
     Running `pesq` using multiple processors
     Args:
@@ -125,12 +125,15 @@ def pesq_batch(fs, ref, deg, mode, n_processor=cpu_count(), on_error=PesqError.R
         mode: 'wb' (wide-band) or 'nb' (narrow-band)
         n_processor: cpu_count() (default) or number of processors (chosen by the user) or 0 (without multiprocessing)
         on_error: PesqError.RAISE_EXCEPTION (default) or PesqError.RETURN_VALUES
+        lengths: None or list of original length of audio signals before batching, length n_file
     Returns:
         pesq_score: list of pesq scores, P.862.2 Prediction (MOS-LQO)
     """
     _check_fs_mode(mode, fs, USAGE_BATCH)
     # check dimension
     if len(ref.shape) == 1:
+        if lengths is not None:
+            raise ValueError("cannot provide lengths if ref is 1D")
         if len(deg.shape) == 1 and ref.shape == deg.shape:
             return [_pesq_inner(ref, deg, fs, mode, PesqError.RETURN_VALUES)]
         elif len(deg.shape) == 2 and ref.shape[-1] == deg.shape[-1]:
@@ -147,14 +150,18 @@ def pesq_batch(fs, ref, deg, mode, n_processor=cpu_count(), on_error=PesqError.R
             raise ValueError("The shapes of `deg` is invalid!")
     elif len(ref.shape) == 2:
         if deg.shape == ref.shape:
+            if lengths is None:
+                lengths = [ref.shape[-1] for _ in range(ref.shape[0])]
+            elif len(lengths) != ref.shape[0]:
+                raise ValueError("len(lengths) does not match the batch size")
             if n_processor <= 0:
                 pesq_score = [np.nan for i in range(deg.shape[0])]
                 for i in range(deg.shape[0]):
-                    pesq_score[i] = _pesq_inner(ref[i, :], deg[i, :], fs, mode, on_error)
+                    pesq_score[i] = _pesq_inner(ref[i, :lengths[i]], deg[i, :lengths[i]], fs, mode, on_error)
                 return pesq_score
             else:
                 return _processor_mapping(_pesq_inner,
-                                          [(ref[i, :], deg[i, :], fs, mode, on_error) for i in range(deg.shape[0])],
+                                          [(ref[i, :lengths[i]], deg[i, :lengths[i]], fs, mode, on_error) for i in range(deg.shape[0])],
                                           n_processor)
         else:
             raise ValueError("The shape of `deg` is invalid!")
