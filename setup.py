@@ -43,7 +43,6 @@ setup(
     ext_package='pesq',
     ext_modules=extensions,
     setup_requires=['setuptools>=18.0', 'cython', 'numpy<2.0'],
-    tests_require=['pytest', 'pytest-runner'],
     classifiers=[
         "Programming Language :: Python",
         "License :: OSI Approved :: MIT License",
