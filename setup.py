@@ -37,7 +37,7 @@ setup(
     description="Python Wrapper for PESQ Score (narrow band and wide band)",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/ludlows/python-pesq",
+    url="https://github.com/ludlows/PESQ",
     packages=find_packages(),
     package_data={'pesq': ["*.pyx", "*.h", "dsp.c", "pesqdsp.c", "pesqmod.c"]},
     ext_package='pesq',
