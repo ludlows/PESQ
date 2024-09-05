@@ -32,7 +32,7 @@ extensions = [
 ]
 setup(
     name="pesq",
-    version="0.0.4",
+    version="0.0.5",
     author="ludlows",
     description="Python Wrapper for PESQ Score (narrow band and wide band)",
     long_description=long_description,
@@ -42,8 +42,8 @@ setup(
     package_data={'pesq': ["*.pyx", "*.h", "dsp.c", "pesqdsp.c", "pesqmod.c"]},
     ext_package='pesq',
     ext_modules=extensions,
-    setup_requires=['setuptools>=18.0', 'cython', 'numpy', 'pytest-runner'],
-    tests_require=['pytest'],
+    setup_requires=['setuptools>=18.0', 'cython', 'numpy<2.0'],
+    install_requires=['numpy<2.0'],
     classifiers=[
         "Programming Language :: Python",
         "License :: OSI Approved :: MIT License",
