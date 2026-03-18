@@ -5,7 +5,6 @@
 #Python Wrapper for PESQ Score (narrow band and wide band)
 
 import cython
-cimport numpy as np 
 
 class PesqError(RuntimeError):
     # Error Return Values
@@ -101,8 +100,8 @@ cdef extern from "pesqmain.h":
 
 
 cpdef object cypesq_retvals(long sample_rate,
-                    np.ndarray[float, ndim=1, mode="c"] ref_data,
-                    np.ndarray[float, ndim=1, mode="c"] deg_data,
+                    float[::1] ref_data,
+                    float[::1] deg_data,
                     int mode):
     # select rate
     cdef long error_flag = 0;
@@ -169,8 +168,8 @@ cpdef object cypesq_retvals(long sample_rate,
     return err_info.mapped_mos
 
 cpdef object cypesq(long sample_rate,
-                    np.ndarray[float, ndim=1, mode="c"] ref_data,
-                    np.ndarray[float, ndim=1, mode="c"] deg_data,
+                    float[::1] ref_data,
+                    float[::1] deg_data,
                     int mode):
     cdef object ret = cypesq_retvals(sample_rate, ref_data, deg_data, mode)
 
